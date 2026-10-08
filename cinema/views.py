@@ -1,13 +1,14 @@
-from rest_framework import status
-from rest_framework.views import APIView
+from rest_framework import mixins, status
 from rest_framework.generics import GenericAPIView
-from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.response import Response
-from .models import Actor, Genre, CinemaHall, Movie
+from rest_framework.views import APIView
+from rest_framework.viewsets import GenericViewSet, ModelViewSet
+
+from .models import Actor, CinemaHall, Genre, Movie
 from .serializers import (
     ActorSerializer,
-    GenreSerializer,
     CinemaHallSerializer,
+    GenreSerializer,
     MovieSerializer,
 )
 
@@ -67,10 +68,11 @@ class GenreDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-from rest_framework import mixins
-
-
-class ActorList(GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin):
+class ActorList(
+    GenericAPIView,
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
 
